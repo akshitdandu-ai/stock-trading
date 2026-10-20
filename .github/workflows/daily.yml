@@ -1,0 +1,37 @@
+name: Daily run
+
+# 18:30 IST (13:00 UTC) on weekdays, plus a 21:00 IST catch-up in case NSE published late.
+# Every step is idempotent: a second run the same evening only loads what is new.
+on:
+  schedule:
+    - cron: "0 13 * * 1-5"
+    - cron: "30 15 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      backfill_days:
+        description: "Calendar days of history to load if the database is empty"
+        default: "1100"
+
+concurrency:
+  group: daily-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    defaults:
+      run:
+        working-directory: pipeline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - run: pip install -r requirements.txt
+      - name: Update data, fill orders, check exits, scan
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: python run_daily.py --backfill-days "${{ github.event.inputs.backfill_days || '1100' }}"
