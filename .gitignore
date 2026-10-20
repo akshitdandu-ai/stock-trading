@@ -9,3 +9,4 @@ __pycache__/
 .vercel/
 data_cache/
 .pytest_cache/
+*.tsbuildinfo
