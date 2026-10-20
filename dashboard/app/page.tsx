@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 import { ButtonForm } from '@/components/ActionForm';
 import BuyForm from '@/components/BuyForm';
 import SellForm from '@/components/SellForm';
-import { Badge, Empty, NoDataYet, SetupNeeded, Stat } from '@/components/ui';
+import { Badge, Empty, SetupNeeded, Stat } from '@/components/ui';
 import { dbConfigured, sql } from '@/lib/db';
 import { loadPortfolio, getLatestScan, loadSuggestions, sizingParams } from '@/lib/queries';
 import { dateLabel, inr, inrSigned, num, pct, todayIST } from '@/lib/format';
@@ -55,7 +56,6 @@ export default async function TodayPage() {
           ) : null}
         </>
       )}
-      {!p.dataDate ? <NoDataYet /> : null}
 
       <h2>Portfolio</h2>
       <div className="stats">
@@ -101,7 +101,7 @@ export default async function TodayPage() {
       <h2>Today&apos;s breakouts {breakouts.length ? <Badge>{breakouts.length}</Badge> : null}</h2>
       {!scan ? null : breakouts.length === 0 ? (
         <Empty title="No breakouts in the latest scan">
-          <p>Nothing cleared its pivot on volume. See <a href="/suggestions">Suggestions</a> for stocks close to their pivot.</p>
+          <p>Nothing cleared its pivot on volume. See <Link href="/suggestions">Suggestions</Link> for stocks close to their pivot.</p>
         </Empty>
       ) : (
         <>

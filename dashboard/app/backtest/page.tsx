@@ -25,7 +25,7 @@ const METRIC_ROWS: { key: string; label: string; fmt: (v: number) => string }[] 
   { key: 'avg_loss', label: 'Average loss', fmt: (v) => inr(v) },
   { key: 'expectancy', label: 'Expectancy / trade', fmt: (v) => inrSigned(v) },
   { key: 'expectancy_r', label: 'Expectancy (R)', fmt: (v) => num(v) },
-  { key: 'profit_factor', label: 'Profit factor (blank = no losing trades)', fmt: (v) => num(v) },
+  { key: 'profit_factor', label: 'Profit factor', fmt: (v) => num(v) },
   { key: 'max_drawdown_pct', label: 'Max drawdown', fmt: (v) => pct(v, 1) },
   { key: 'cagr_pct', label: 'CAGR', fmt: (v) => pct(v, 1) },
   { key: 'total_return_pct', label: 'Total return', fmt: (v) => pct(v, 1, true) },
@@ -125,7 +125,9 @@ export default async function BacktestPage() {
                 {METRIC_ROWS.map((m) => {
                   const cell = (r: Run | null) => {
                     const v = r?.metrics?.[m.key];
-                    return typeof v === 'number' ? m.fmt(v) : '—';
+                    if (typeof v === 'number') return m.fmt(v);
+                    if (m.key === 'profit_factor' && typeof r?.metrics?.trades === 'number' && r.metrics.trades > 0) return '∞ (no losses)';
+                    return '—';
                   };
                   return (
                     <tr key={m.key}><td>{m.label}</td><td className="r">{cell(on)}</td><td className="r">{cell(off)}</td></tr>

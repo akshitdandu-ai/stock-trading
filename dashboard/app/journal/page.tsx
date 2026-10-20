@@ -91,7 +91,7 @@ export default async function JournalPage() {
                     <td className="r">{r.stats.n}</td>
                     <td className="r">{pct(r.stats.winRate === null ? null : r.stats.winRate * 100, 0)}</td>
                     <td className={`r ${pnlClass(r.stats.expectancy)}`}>{inrSigned(r.stats.expectancy)}</td>
-                    <td className={`r ${pnlClass(r.stats.total)}`}>{inrSigned(r.stats.total)}</td>
+                    <td className={`r ${pnlClass(r.stats.total)}`}>{r.stats.n ? inrSigned(r.stats.total) : '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -109,7 +109,7 @@ export default async function JournalPage() {
                     <td className="r">{b.stats.n}</td>
                     <td className="r">{pct(b.stats.winRate === null ? null : b.stats.winRate * 100, 0)}</td>
                     <td className={`r ${pnlClass(b.stats.expectancy)}`}>{inrSigned(b.stats.expectancy)}</td>
-                    <td className={`r ${pnlClass(b.stats.total)}`}>{inrSigned(b.stats.total)}</td>
+                    <td className={`r ${pnlClass(b.stats.total)}`}>{b.stats.n ? inrSigned(b.stats.total) : '—'}</td>
                   </tr>
                 ))}
               </tbody>

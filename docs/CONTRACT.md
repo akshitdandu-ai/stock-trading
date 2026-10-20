@@ -47,3 +47,8 @@ kind in 'stop' ("sell at next open"), 'target' ("book 1/3, move stop to entry"),
 
 ## Backtest output
 `backtest_runs` (latest two rows: filter_on true/false). `metrics` jsonb: trades, win_rate, avg_win, avg_loss, expectancy, expectancy_r, profit_factor, max_drawdown_pct, cagr_pct, total_return_pct, final_equity, start_capital. `equity_curve`: `[{"d":"YYYY-MM-DD","equity":n,"bench":n}]` (bench rebased to start capital). `trades`: array of `{symbol, entry_date, entry_price, exit_date, exit_price, qty, pnl, ret_pct, reason}`. `notes` has survivorship-bias explanation text.
+
+## Notes added after build
+- Stored money values (charges, stop, target, tax, realized_pnl) are rounded to 2 decimals, in both Python and TypeScript.
+- `backtest_runs.metrics.win_rate` is a percentage (e.g. 41.7); `profit_factor` null means no losing trades.
+- Dashboard "days held" is calendar days; the pipeline's time-stop counts trading sessions.

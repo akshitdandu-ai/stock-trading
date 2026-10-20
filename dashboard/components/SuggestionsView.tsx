@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { toggleWatchlist } from '@/app/actions';
-import { inr, num, pct } from '@/lib/format';
+import { dateLabel, inr, num, pct } from '@/lib/format';
 import type { SizingParams, SuggestionRow } from '@/lib/types';
 import BuyForm from './BuyForm';
 import ChecklistForm from './ChecklistForm';
@@ -242,7 +242,7 @@ export default function SuggestionsView({
               <label htmlFor="f-q">Search</label>
               <input id="f-q" type="search" value={q} placeholder="Symbol or sector" onChange={(e) => setQ(e.target.value)} />
             </div>
-            <span className="small muted">Scan of {scanDate}</span>
+            <span className="small muted">Scan of {dateLabel(scanDate)}</span>
           </div>
 
           <h2>Breakouts today ({breakouts.length})</h2>
